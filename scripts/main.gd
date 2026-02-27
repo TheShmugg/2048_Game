@@ -46,7 +46,7 @@ func spawn_tile():
 	var tile = tile_scene.instantiate()
 	var pos = random_pos()
 	
-	if tile.get_pos().x == -1 or tile.get_pos().y == -1:
+	if pos.x == -1 or pos.y == -1:
 		print("Lose")
 		return
 	
