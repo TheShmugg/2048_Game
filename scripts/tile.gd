@@ -5,6 +5,9 @@ var pos_y: int
 var pos: Vector2i
 var color: Color
 var value: int
+var merged = false
+
+@onready var animation_player = $AnimationPlayer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,6 +21,39 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	update_pos()
 	update_color()
+
+
+func animate_to(target_pos):
+	var tween = create_tween()
+	tween.tween_property(self, "position", target_pos, 0.12)
+
+
+func sort_left(tile1: Node2D, tile2: Node2D):
+	if tile1.get_pos().x < tile2.get_pos().x:
+		return true
+	else:
+		return false
+
+
+func sort_right(tile1: Node2D, tile2: Node2D):
+	if tile1.get_pos().x > tile2.get_pos().x:
+		return true
+	else:
+		return false
+
+
+func sort_up(tile1: Node2D, tile2: Node2D):
+	if tile1.get_pos().y < tile2.get_pos().y:
+		return true
+	else:
+		return false
+
+
+func sort_down(tile1: Node2D, tile2: Node2D):
+	if tile1.get_pos().y > tile2.get_pos().y:
+		return true
+	else:
+		return false
 
 
 func random_value() -> int:
@@ -43,6 +79,10 @@ func get_value() -> int:
 	return value
 
 
+func get_merged() -> bool:
+	return merged
+
+
 func set_pos(p: Vector2i):
 	pos = p
 	pos_x = p.x
@@ -51,6 +91,11 @@ func set_pos(p: Vector2i):
 
 func set_value(num: int):
 	value = num
+	$Value.text = str(value)
+
+
+func set_merged(m: bool):
+	merged = m
 
 
 func update_pos():
@@ -81,3 +126,7 @@ func update_color():
 	}
 	
 	$Color.color = colors.get(value)
+
+
+func play_merged():
+	animation_player.play("merge")
